@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: dotnet build -c Release --no-restore CleanArch.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal CleanArch.sln
+      run: dotnet test CleanArch.sln --no-build --verbosity normal
