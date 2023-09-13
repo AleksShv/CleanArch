@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  cleanarch.publicapi:
+    image: ${DOCKER_REGISTRY-}cleanarchpublicapi
+    build:
+      context: .
+      dockerfile: src/Hosts/CleanArch.PublicApi/Dockerfile
+    depends_on:
+        - sql-server-db
+        - mongo-grid-fs
+        - redis
+
+  sql-server-db:
+    container_name: sql-server-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+        - 1433:1433
+    environment:
+        SA_PASSWORD: 'AdmiN_123456_'
+        ACCEPT_EULA: 'Y'
+        MSSQL_PID: Express
+
+  mongo-grid-fs:
+    container_name: mongo-grid-fs
+    image: mongo:latest
+    ports:
+        - 27017:27017
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: 'root'
+        MONGO_INITDB_ROOT_PASSWORD: '123456'
+        MONGO_INITDB_DATABASE: 'CleanArch'
+    volumes:
+    - grid-fs:/data/db
+        
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: always
+    ports:
+        - 6379:6379
+    environment:
+        REDIS_PASSWORD: '123456'
+    volumes:
+        - redis:/data
+      
+volumes:
+  grid-fs:
+    driver: local
+  redis:
+    driver: local

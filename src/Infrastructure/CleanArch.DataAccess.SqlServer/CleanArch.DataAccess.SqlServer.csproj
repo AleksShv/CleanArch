@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net7.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <InternalsVisibleTo Include="CleanArch.ArchitectureTests"/>
+	  <InternalsVisibleTo Include="CleanArch.IntegrationTests"/>
+	<PackageReference Include="Dapper" Version="2.0.151" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\..\UseCases\CleanArch.DataAccess.Contracts\CleanArch.DataAccess.Contracts.csproj" />
+	<ProjectReference Include="..\..\UseCases\CleanArch.Infrastructure.Contracts\CleanArch.Infrastructure.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<Folder Include="Migrations\" />
+  </ItemGroup>
+
+</Project>
