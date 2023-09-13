@@ -22,7 +22,8 @@ public static class DependencyInjection
         {
             options.UseSqlServer(connectionString)
                 .AddInterceptors(
-                    provider.GetRequiredService<AuditableEntitiesInterceptor>());
+                    provider.GetRequiredService<AuditableEntitiesInterceptor>())
+                .EnableSensitiveDataLogging();
         });
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();

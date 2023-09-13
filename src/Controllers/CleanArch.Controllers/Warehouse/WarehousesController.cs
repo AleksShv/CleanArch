@@ -9,7 +9,7 @@ using CleanArch.UseCases.Warehouses.Warehouses.UpdateWarehouse;
 using CleanArch.UseCases.Warehouses.Warehouses.RemoveWarehouse;
 using CleanArch.UseCases.Warehouses.Warehouses.GetWarehouseDetails;
 using CleanArch.UseCases.Warehouses.Warehouses.GetWarehouseProducts;
-using CleanArch.UseCases.Warehouses.Warehouses.GetWarehouses;
+using CleanArch.UseCases.Warehouses.Warehouses.GetWarehousesList;
 
 namespace CleanArch.Controllers.Warehouse;
 

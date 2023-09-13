@@ -1,7 +1,6 @@
 ﻿using MediatR;
 
 using CleanArch.DataAccess.Contracts;
-using CleanArch.Infrastructure.Contracts.UserProvider;
 using CleanArch.Entities;
 
 namespace CleanArch.UseCases.Catalog.Products.PutProductOnSale;
@@ -23,8 +22,8 @@ internal sealed class PutProductOnSaleCommandHandler : IRequestHandler<PutProduc
             IsAvailableForSale = true
         };
 
-        _context.Products.Attach(product);
-        _context.Products.Entry(product).Property(x => x.IsAvailableForSale).IsModified = true;
+        var entry = _context.Products.Attach(product);
+        entry.Property(x => x.IsAvailableForSale).IsModified = true;
 
         await _context.SaveChangesAsync(cancellationToken);
     }

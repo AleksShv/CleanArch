@@ -9,5 +9,7 @@ public class Warehouse : Entity<Guid>
     public string Address { get; set; } = default!;
 
     public List<Product> Products { get; set; } = new List<Product>();
+    public List<ProductWarehouse> ProductWarehouses { get; set; } = new List<ProductWarehouse>();
+
     public List<Supply> Supplies { get; set; } = new List<Supply>();
 }

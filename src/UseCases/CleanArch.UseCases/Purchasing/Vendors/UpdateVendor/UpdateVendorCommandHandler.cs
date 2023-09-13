@@ -21,7 +21,7 @@ internal class UpdateVendorCommandHandler : IRequestHandler<UpdateVendorCommand,
     public async Task<Guid> Handle(UpdateVendorCommand request, CancellationToken cancellationToken)
     {
         var vendor = await _context.Vendors
-            .FindByIdAsync(request.Id, cancellationToken)
+            .FindByIdOrDefaultAsync(request.Id, cancellationToken)
             ?? throw new VendorNotFoundException(request.Id);
 
         _mapper.Map(request, vendor);

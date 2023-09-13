@@ -21,7 +21,7 @@ internal class UpdateWarehouseCommandHandler : IRequestHandler<UpdateWarehouseCo
     public async Task<Guid> Handle(UpdateWarehouseCommand request, CancellationToken cancellationToken)
     {
         var warehouse = await _context.Warehouses
-            .FindByIdAsync(request.WarehouseId, cancellationToken)
+            .FindByIdOrDefaultAsync(request.WarehouseId, cancellationToken)
             ?? throw new WarehouseNotFoundExceptions(request.WarehouseId);
 
         _mapper.Map(request, warehouse);

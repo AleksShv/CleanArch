@@ -24,7 +24,7 @@ internal class UpdateProductCommandHandler : UserProvidedRequestHandler<UpdatePr
     public override async Task<Guid> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         var product = await _context.Products
-            .FindByIdAsync(request.ProductId, cancellationToken)
+            .FindByIdOrDefaultAsync(request.ProductId, cancellationToken)
             ?? throw new ProductNotFoundException(request.ProductId);
 
         if (!product.CheckProductOwner(UserId, Role))

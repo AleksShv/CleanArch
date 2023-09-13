@@ -21,8 +21,8 @@ internal class UpdateProductImageOrderCommandHandler : IRequestHandler<UpdatePro
     {
         var productImage = _mapper.Map<ProductImage>(request);
 
-        _context.ProductImages.Attach(productImage);
-        _context.ProductImages.Entry(productImage).Property(x => x.Order).IsModified = true;
+        var entry = _context.ProductImages.Attach(productImage);
+        entry.Property(x => x.Order).IsModified = true;
 
         await _context.SaveChangesAsync(cancellationToken);
 

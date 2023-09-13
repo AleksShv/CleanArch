@@ -13,4 +13,11 @@ internal static class ValidatorExtensions
     {
         return ruleBuilder.MustAsync(set.ContainsWithIdAsync);
     }
+
+    public static IRuleBuilderOptions<T, IEnumerable<TProperty>> ContainsIn<T, TEntity, TProperty>(this IRuleBuilder<T, IEnumerable<TProperty>> ruleBuilder, DbSet<TEntity> set)
+        where TEntity : Entity<TProperty>
+        where TProperty : IEquatable<TProperty>
+    {
+        return ruleBuilder.MustAsync(set.ContainsWithIdAsync);
+    }
 }

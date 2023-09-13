@@ -13,11 +13,9 @@
     <Folder Include="Ordering\Baskets\GetDetails\" />
     <Folder Include="Ordering\Orders\Checkout\" />
     <Folder Include="Ordering\Orders\Cancel\" />
-    <Folder Include="Purchasing\Products\PurchaseProduct\" />
     <Folder Include="Purchasing\Products\GetProductDetails\" />
-    <Folder Include="Purchasing\Products\UpdateProduct\" />
-    <Folder Include="Purchasing\Suplies\StartSuply\" />
-    <Folder Include="Purchasing\Suplies\FinishSuply\" />
+    <Folder Include="Purchasing\Supplies\StartSuply\" />
+    <Folder Include="Purchasing\Supplies\FinishSuply\" />
     <Folder Include="Warehouses\Products\CheckStock\" />
     <Folder Include="Warehouses\Products\AddToStock\" />
     <Folder Include="Warehouses\Products\RemoveFromStock\" />

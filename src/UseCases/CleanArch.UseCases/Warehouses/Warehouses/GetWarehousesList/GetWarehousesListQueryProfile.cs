@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 
 using CleanArch.Entities;
-using CleanArch.UseCases.Warehouses.Warehouses.GetWarehouses;
 
 namespace CleanArch.UseCases.Warehouses.Warehouses.GetWarehousesList;
 

@@ -37,10 +37,20 @@ internal static partial class QueryExtensions
         where TId : IEquatable<TId>
         => source.AnyAsync(e => e.Id.Equals(id), cancellationToken);
 
-    public static Task<TEntity?> FindByIdAsync<TEntity, TId>(this IQueryable<TEntity> source, TId id, CancellationToken cancellationToken = default)
+    public static Task<bool> ContainsWithIdAsync<TEntity, TId>(this IQueryable<TEntity> source, IEnumerable<TId> ids, CancellationToken cancellationToken = default)
+        where TEntity : Entity<TId>
+        where TId : IEquatable<TId>
+        => source.AllAsync(e => ids.Contains(e.Id), cancellationToken);
+
+    public static Task<TEntity?> FindByIdOrDefaultAsync<TEntity, TId>(this IQueryable<TEntity> source, TId id, CancellationToken cancellationToken = default)
         where TEntity : Entity<TId>
         where TId : IEquatable<TId>
         => source.FirstOrDefaultAsync(e => e.Id.Equals(id), cancellationToken);
+
+    public static Task<TEntity> FindByIdAsync<TEntity, TId>(this IQueryable<TEntity> source, TId id, CancellationToken cancellationToken = default)
+        where TEntity : Entity<TId>
+        where TId : IEquatable<TId>
+        => source.FirstAsync(e => e.Id.Equals(id), cancellationToken);
 
     public static IQueryable<TEntity> SearchWhen<TEntity>(this IQueryable<TEntity> source, bool condition, Expression<Func<TEntity, string>> members, string? searchString)
         => condition ? source.Search(members, searchString) : source;

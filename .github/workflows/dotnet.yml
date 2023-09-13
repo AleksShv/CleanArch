@@ -20,6 +20,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore CleanArch.sln
     - name: Build
-      run: dotnet build -c Release --no-restore CleanArch.sln
+      run: dotnet build CleanArch.sln -c Release --no-restore
     - name: Test
       run: dotnet test CleanArch.sln --no-build --verbosity normal

@@ -10,7 +10,7 @@ internal class RegisterCommandProfile : Profile
     public RegisterCommandProfile()
     {
         CreateMap<RegisterCommand, User>()
-            .ForMember(s => s.Password, o => o.MapFrom<HashedPasswordResolver>());
+            .ForMember(d => d.Password, o => o.MapFrom<HashedPasswordResolver>());
     }
 
     private class HashedPasswordResolver : IValueResolver<RegisterCommand, User, string>

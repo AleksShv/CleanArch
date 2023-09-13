@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using CleanArch.DataAccess.Contracts;
-using CleanArch.UseCases.Warehouses.Warehouses.GetWarehouses;
 
 namespace CleanArch.UseCases.Warehouses.Warehouses.GetWarehousesList;
 

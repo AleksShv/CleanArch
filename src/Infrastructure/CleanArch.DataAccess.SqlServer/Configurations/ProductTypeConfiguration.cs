@@ -30,7 +30,8 @@ internal class ProductTypeConfiguration : IEntityTypeConfiguration<Product>
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(x => x.Warehouses)
-            .WithMany(x => x.Products);
+            .WithMany(x => x.Products)
+            .UsingEntity<ProductWarehouse>();
 
         builder.HasMany(x => x.BasketItems)
             .WithOne(x => x.Product)

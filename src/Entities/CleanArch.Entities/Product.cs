@@ -28,6 +28,8 @@ public class Product : Entity<Guid>, IAuditableEntity, ISoftDeletableEntity
     public int QuantityInStock { get; set; } = default;
 
     public List<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
+    public List<ProductWarehouse> ProductWarehouses { get; set; } = new List<ProductWarehouse>(); 
+
     public List<Supply> Supplies { get; set; } = new List<Supply>();
 
     public List<BasketItem> BasketItems { get; set; } = new List<BasketItem>();

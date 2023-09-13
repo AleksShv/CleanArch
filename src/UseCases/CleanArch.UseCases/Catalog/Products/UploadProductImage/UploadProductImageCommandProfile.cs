@@ -9,7 +9,7 @@ internal class UploadProductImageCommandProfile : Profile
     public UploadProductImageCommandProfile()
     {
         CreateMap<UploadProductImageCommand, ProductImage>()
-            .ForMember(src => src.Ext, opts => opts.MapFrom(dest => Path.GetExtension(dest.FileName)))
-            .ForMember(src => src.Size, opts => opts.MapFrom(dest => dest.Source.Length));
+            .ForMember(d => d.Ext, o => o.MapFrom(s => Path.GetExtension(s.FileName)))
+            .ForMember(d => d.Size, o => o.MapFrom(s => s.Source.Length));
     }
 }
