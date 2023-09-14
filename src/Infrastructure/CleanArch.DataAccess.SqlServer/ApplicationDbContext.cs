@@ -30,6 +30,7 @@ internal class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Supply> Supplies { get; init; }
 
     public DbSet<Warehouse> Warehouses { get; init; }
+    public DbSet<ProductWarehouse> ProductWarehouses { get; init; }
 
     public DbSet<User> Users { get; init; }
     public DbSet<Avatar> Avatars { get; init; }

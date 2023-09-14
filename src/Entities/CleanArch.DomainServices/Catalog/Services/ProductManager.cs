@@ -13,4 +13,9 @@ public static class ProductManager
 
         return userRole.HasFlag(UserRole.Admin);
     }
+
+    public static void SetSKU(this Product product)
+    {
+        product.SKU = SKUGenerator.Generate();
+    }
 }

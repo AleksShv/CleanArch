@@ -122,6 +122,7 @@ public static class DatabaseInitializer
 
         if (!ctx.Products.Any())
         {
+            var productId = Guid.NewGuid();
             var productOwnerId = ctx.Users.Where(x => x.Role == UserRole.ProductOwner).Select(x => x.Id).First();
             var vendorId = ctx.Vendors.Select(x => x.Id).First();
             var warehouses = ctx.Warehouses.Select(x => new Warehouse { Id = x.Id }).Take(2).ToList();
@@ -131,6 +132,7 @@ public static class DatabaseInitializer
 
             var product = new Product
             {
+                Id = productId,
                 Title = "product #1",
                 Description = "description for product #1",
                 Price = 15.00m,
@@ -156,6 +158,21 @@ public static class DatabaseInitializer
                         Quantity = 7,
                         VendorId = vendorId,
                         WarehouseId = warehouses[1].Id
+                    }
+                },
+                ProductWarehouses = new List<ProductWarehouse> 
+                { 
+                    new ProductWarehouse 
+                    {
+                        Quantity = 3,
+                        WarehouseId = warehouses[0].Id,
+                        ProductId = productId,
+                    },
+                    new ProductWarehouse
+                    {
+                        Quantity = 7,
+                        WarehouseId = warehouses[1].Id,
+                        ProductId = productId,
                     }
                 }
             };

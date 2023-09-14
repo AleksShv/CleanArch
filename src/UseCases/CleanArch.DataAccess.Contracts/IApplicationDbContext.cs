@@ -21,6 +21,7 @@ public interface IApplicationDbContext
     DbSet<Supply> Supplies { get; }
 
     DbSet<Warehouse> Warehouses { get; }
+    DbSet<ProductWarehouse> ProductWarehouses { get; }
 
     DbSet<User> Users { get; }
     DbSet<RefreshToken> RefreshTokens { get; }

@@ -13,12 +13,6 @@
     <Folder Include="Ordering\Baskets\GetDetails\" />
     <Folder Include="Ordering\Orders\Checkout\" />
     <Folder Include="Ordering\Orders\Cancel\" />
-    <Folder Include="Purchasing\Products\GetProductDetails\" />
-    <Folder Include="Purchasing\Supplies\StartSuply\" />
-    <Folder Include="Purchasing\Supplies\FinishSuply\" />
-    <Folder Include="Warehouses\Products\CheckStock\" />
-    <Folder Include="Warehouses\Products\AddToStock\" />
-    <Folder Include="Warehouses\Products\RemoveFromStock\" />
     <Folder Include="Warehouses\Products\Transport\" />
   </ItemGroup>
 
@@ -29,7 +23,7 @@
     <PackageReference Include="FluentValidation" Version="11.7.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
     <PackageReference Include="MediatR" Version="12.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.11" />
     <PackageReference Include="Scrutor" Version="4.2.2" />
   </ItemGroup>
 

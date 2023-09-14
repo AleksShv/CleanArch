@@ -1,4 +1,4 @@
-﻿namespace CleanArch.DomainServices.Warehouse.Services;
+﻿namespace CleanArch.DomainServices.Catalog.Services;
 
 internal static class SKUGenerator
 {

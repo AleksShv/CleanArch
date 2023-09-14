@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Purchasing\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="DelegateDecompiler" Version="0.32.0" />
   </ItemGroup>
 

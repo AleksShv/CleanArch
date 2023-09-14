@@ -30,14 +30,12 @@ internal sealed class GetProductsPageQueryHandler : IRequestHandler<GetProductsP
         var total = await query.CountAsync(cancellationToken);
 
         var products = await query
-            .Skip(request.PageIndex * request.PageSize)
-            .Take(request.PageSize)
-            .ProjectTo<ProductPaggingItemDto>(_mapper.ConfigurationProvider) // In current version (12.0.1) projection mapping not work. Cool 👍
+            .Paging(request.PageIndex, request.PageSize)
+            .ProjectTo<ProductPaggingItemDto>(_mapper.ConfigurationProvider)
             .ToArrayAsync(cancellationToken);
 
         var pagging = new PaggingDto<ProductPaggingItemDto>(products, request.PageIndex, request.PageSize, total);
 
         return pagging;
     }
-
 }

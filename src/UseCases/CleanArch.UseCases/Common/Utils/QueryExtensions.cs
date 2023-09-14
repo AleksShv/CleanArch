@@ -10,6 +10,11 @@ namespace CleanArch.UseCases.Common.Utils;
 
 internal static partial class QueryExtensions
 {
+    public static IQueryable<TEntity> Paging<TEntity>(this IQueryable<TEntity> source, int pageIndex, int pageSize)
+        => source
+            .Skip(pageIndex * pageSize)
+            .Take(pageSize);
+
     public static IQueryable<TEntity> With<TEntity, TProperty>(this IQueryable<TEntity> source, Expression<Func<TEntity, TProperty>> propertyExpression, TProperty value)
         where TEntity : class
         => source.Where(

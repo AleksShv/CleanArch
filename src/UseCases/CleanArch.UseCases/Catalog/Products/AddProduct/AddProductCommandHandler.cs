@@ -3,6 +3,7 @@ using MediatR;
 
 using CleanArch.DataAccess.Contracts;
 using CleanArch.Entities;
+using CleanArch.DomainServices.Catalog.Services;
 
 namespace CleanArch.UseCases.Catalog.Products.AddProduct;
 
@@ -20,6 +21,8 @@ internal sealed class AddProductCommandHandler : IRequestHandler<AddProductComma
     public async Task<Guid> Handle(AddProductCommand request, CancellationToken cancellationToken)
     {
         var product = _mapper.Map<Product>(request);
+        
+        product.SetSKU();
 
         await _context.Products
             .AddAsync(product, cancellationToken);
