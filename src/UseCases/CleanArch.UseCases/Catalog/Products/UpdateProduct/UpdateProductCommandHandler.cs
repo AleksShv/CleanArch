@@ -3,9 +3,9 @@
 using CleanArch.DataAccess.Contracts;
 using CleanArch.UseCases.Common.Utils;
 using CleanArch.Infrastructure.Contracts.UserProvider;
-using CleanArch.UseCases.Catalog.Exceptions;
 using CleanArch.UseCases.Common.Handlers;
 using CleanArch.DomainServices.Catalog.Services;
+using CleanArch.UseCases.Internal.Exceptions;
 
 namespace CleanArch.UseCases.Catalog.Products.UpdateProduct;
 

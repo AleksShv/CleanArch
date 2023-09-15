@@ -1,4 +1,4 @@
-﻿namespace CleanArch.UseCases.Catalog.Exceptions;
+﻿namespace CleanArch.UseCases.Internal.Exceptions;
 
 internal class ProductImageOwningException : Exception
 {

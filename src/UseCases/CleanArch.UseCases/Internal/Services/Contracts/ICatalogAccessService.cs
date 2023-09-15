@@ -1,6 +1,6 @@
 ﻿using CleanArch.Entities;
 
-namespace CleanArch.UseCases.InternalServices.Contracts;
+namespace CleanArch.UseCases.Internal.Services.Contracts;
 
 internal interface ICatalogAccessService
 {

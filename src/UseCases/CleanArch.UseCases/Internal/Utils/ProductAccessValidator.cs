@@ -3,9 +3,9 @@ using FluentValidation.Validators;
 
 using CleanArch.Entities;
 using CleanArch.Infrastructure.Contracts.UserProvider;
-using CleanArch.UseCases.InternalServices.Contracts;
+using CleanArch.UseCases.Internal.Services.Contracts;
 
-namespace CleanArch.UseCases.Catalog.Utils;
+namespace CleanArch.UseCases.Internal.Utils;
 
 internal class ProductAccessValidator<T> : AsyncPropertyValidator<T, Guid>
 {
@@ -24,5 +24,5 @@ internal class ProductAccessValidator<T> : AsyncPropertyValidator<T, Guid>
         => await _accessService.CheckUserProductAccessAsync(value, _userProvider.GetUserId<Guid>(), _userProvider.GetRoles<UserRole>(), cancellation);
 
     protected override string GetDefaultMessageTemplate(string errorCode)
-        => "You aren't owner of the product"; 
+        => "You aren't owner of the product";
 }

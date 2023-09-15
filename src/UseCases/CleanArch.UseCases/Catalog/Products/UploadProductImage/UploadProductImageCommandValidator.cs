@@ -2,8 +2,8 @@
 
 using CleanArch.DomainServices.Catalog.Consts;
 using CleanArch.DomainServices.Catalog.Services;
-using CleanArch.UseCases.Catalog.Utils;
 using CleanArch.DataAccess.Contracts;
+using CleanArch.UseCases.Internal.Utils;
 
 namespace CleanArch.UseCases.Catalog.Products.UploadProductImage;
 

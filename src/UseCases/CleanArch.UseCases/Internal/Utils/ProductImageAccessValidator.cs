@@ -3,9 +3,9 @@ using FluentValidation.Validators;
 
 using CleanArch.Entities;
 using CleanArch.Infrastructure.Contracts.UserProvider;
-using CleanArch.UseCases.InternalServices.Contracts;
+using CleanArch.UseCases.Internal.Services.Contracts;
 
-namespace CleanArch.UseCases.Catalog.Utils;
+namespace CleanArch.UseCases.Internal.Utils;
 
 internal class ProductImageAccessValidator<T> : AsyncPropertyValidator<T, Guid>
 {

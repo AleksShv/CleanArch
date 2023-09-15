@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 using CleanArch.DataAccess.Contracts;
 using CleanArch.Infrastructure.Contracts.BlobStorage;
-using CleanArch.UseCases.Catalog.Exceptions;
+using CleanArch.UseCases.Internal.Exceptions;
 
 namespace CleanArch.UseCases.Catalog.Products.GetProductImage;
 

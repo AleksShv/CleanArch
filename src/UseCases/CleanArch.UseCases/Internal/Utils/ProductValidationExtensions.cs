@@ -3,7 +3,7 @@
 using CleanArch.DataAccess.Contracts;
 using CleanArch.UseCases.Common.Utils;
 
-namespace CleanArch.UseCases.Catalog.Utils;
+namespace CleanArch.UseCases.Internal.Utils;
 
 internal static class ProductValidationExtensions
 {

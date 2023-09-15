@@ -1,6 +1,7 @@
-﻿using CleanArch.DataAccess.Contracts;
+﻿using MediatR;
+
+using CleanArch.DataAccess.Contracts;
 using CleanArch.UseCases.Common.Requests;
-using MediatR;
 
 namespace CleanArch.UseCases.Common.Behaviours;
 

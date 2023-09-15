@@ -2,7 +2,7 @@
 
 using CleanArch.DataAccess.Contracts;
 using CleanArch.UseCases.Catalog.Products.AddProduct;
-using CleanArch.UseCases.Catalog.Utils;
+using CleanArch.UseCases.Internal.Utils;
 
 namespace CleanArch.UseCases.Catalog.Products.UpdateProduct;
 

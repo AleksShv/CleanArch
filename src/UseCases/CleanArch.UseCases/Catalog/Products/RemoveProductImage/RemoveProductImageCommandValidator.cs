@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 using CleanArch.DataAccess.Contracts;
-using CleanArch.UseCases.Catalog.Utils;
+using CleanArch.UseCases.Internal.Utils;
 
 namespace CleanArch.UseCases.Catalog.Products.RemoveProductImage;
 

@@ -1,8 +1,8 @@
 ﻿using CleanArch.DataAccess.Contracts;
-using CleanArch.UseCases.InternalServices.Contracts;
 using CleanArch.UseCases.Common.Handlers;
 using CleanArch.Infrastructure.Contracts.UserProvider;
 using CleanArch.UseCases.Common.Utils;
+using CleanArch.UseCases.Internal.Services.Contracts;
 
 namespace CleanArch.UseCases.Catalog.Products.RemoveProduct;
 

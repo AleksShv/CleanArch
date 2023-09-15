@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 using CleanArch.DataAccess.Contracts;
 using CleanArch.Entities;
-using CleanArch.UseCases.Catalog.Exceptions;
-using CleanArch.UseCases.InternalServices.Contracts;
 using CleanArch.DomainServices.Catalog.Services;
+using CleanArch.UseCases.Internal.Services.Contracts;
+using CleanArch.UseCases.Internal.Exceptions;
 
-namespace CleanArch.UseCases.InternalServices;
+namespace CleanArch.UseCases.Internal.Services;
 
 internal class CatalogAccessService : ICatalogAccessService
 {
@@ -48,7 +48,7 @@ internal class CatalogAccessService : ICatalogAccessService
              .FirstOrDefaultAsync(cancellationToken)
              ?? throw new ProductNotFoundException(productId);
 
-        return ProductManager.CheckProductOwner(product, userId, userRole);
+        return product.CheckProductOwner(userId, userRole);
     }
 
     public async Task<bool> CheckUserProductImageAccessAsync(Guid productImageId, Guid userId, UserRole userRole, CancellationToken cancellationToken = default)
@@ -64,6 +64,6 @@ internal class CatalogAccessService : ICatalogAccessService
            .FirstOrDefaultAsync(cancellationToken)
            ?? throw new ProductImageNotFoundException(productImageId);
 
-        return ProductManager.CheckProductOwner(product, userId, userRole);
+        return product.CheckProductOwner(userId, userRole);
     }
 }
