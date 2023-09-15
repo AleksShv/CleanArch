@@ -4,7 +4,7 @@ namespace CleanArch.DomainServices.Purchasing.Services;
 
 public static class SupplyManager
 {
-    public static void Complete(this Supply supply, ref ProductWarehouse? productWarehouse)
+    public static ProductWarehouse Complete(this Supply supply, ProductWarehouse? productWarehouse)
     {
         supply.IsCompleted = true;
 
@@ -22,5 +22,7 @@ public static class SupplyManager
         {
             productWarehouse.Quantity += supply.Quantity;
         }
+
+        return productWarehouse;
     }
 }

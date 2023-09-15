@@ -7,15 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <InternalsVisibleTo Include="CleanArch.ArchitectureTests"/>
-	  <InternalsVisibleTo Include="CleanArch.IntegrationTests"/>
+	  <InternalsVisibleTo Include="CleanArch.ArchitectureTests" />
+	  <InternalsVisibleTo Include="CleanArch.IntegrationTests" />
 	<PackageReference Include="Dapper" Version="2.0.151" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
-	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
+	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>

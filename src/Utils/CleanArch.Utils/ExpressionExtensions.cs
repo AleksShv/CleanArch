@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-namespace CleanArch.UseCases.Common.Utils;
+namespace CleanArch.Utils;
 
-internal static class ExpressionExtensions
+public static class ExpressionExtensions
 {
-    public static Expression<Func<TIn,TOut>> Merge<TIn, TInOut, TOut>(this Expression<Func<TIn, TInOut>> inExp, Expression<Func<TInOut, TOut>> outExp)
+    public static Expression<Func<TIn, TOut>> Merge<TIn, TInOut, TOut>(this Expression<Func<TIn, TInOut>> inExp, Expression<Func<TInOut, TOut>> outExp)
     {
         return new ExpressionMerger().Merge(inExp, outExp);
     }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 using CleanArch.Entities;
-using CleanArch.UseCases.Common.Utils;
+using CleanArch.Utils.AutoMapper;
 
 namespace CleanArch.UseCases.Purchasing.Products.GetProductPurchasingDetails;
 

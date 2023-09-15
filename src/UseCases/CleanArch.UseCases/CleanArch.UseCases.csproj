@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Entities\CleanArch.DomainServices\CleanArch.DomainServices.csproj" />
+    <ProjectReference Include="..\..\Utils\CleanArch.Utils.AutoMapper\CleanArch.Utils.AutoMapper.csproj" />
     <ProjectReference Include="..\..\Utils\CleanArch.Utils\CleanArch.Utils.csproj" />
     <ProjectReference Include="..\CleanArch.DataAccess.Contracts\CleanArch.DataAccess.Contracts.csproj" />
     <ProjectReference Include="..\CleanArch.Infrastructure.Contracts\CleanArch.Infrastructure.Contracts.csproj" />

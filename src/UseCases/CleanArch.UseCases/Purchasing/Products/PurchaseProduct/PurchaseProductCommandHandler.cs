@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using CleanArch.DataAccess.Contracts;
 using CleanArch.UseCases.Common.Utils;
 using CleanArch.Entities;
+using CleanArch.UseCases.Catalog.Exceptions;
 
 namespace CleanArch.UseCases.Purchasing.Products.PurchaseProduct;
 
@@ -25,7 +26,7 @@ internal class PurchaseProductCommandHandler : IRequestHandler<PurchaseProductCo
             .WithId(request.ProductId)
             .Select(p => p.VendorId)
             .FirstOrDefaultAsync(cancellationToken)
-            ?? throw new InvalidOperationException();
+            ?? throw new ProductNotFoundException(request.ProductId);
 
         var supply = _mapper.Map<Supply>(request);
         supply.VendorId = vendorId;

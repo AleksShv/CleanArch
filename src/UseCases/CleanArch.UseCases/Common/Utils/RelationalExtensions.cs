@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore;
 
 using CleanArch.Entities.Base;
+using CleanArch.Utils;
 
 namespace CleanArch.UseCases.Common.Utils;
 
