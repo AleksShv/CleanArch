@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+
 using CleanArch.Controllers.Catalog.Products.Requests;
 using CleanArch.Controllers.Catalog.Products.Responses;
 using CleanArch.Controllers.Common;
@@ -8,6 +9,7 @@ using CleanArch.UseCases.Catalog.Products.GetProductsPage;
 using CleanArch.UseCases.Catalog.Products.UpdateProduct;
 using CleanArch.UseCases.Catalog.Products.UpdateProductImageOrder;
 using CleanArch.UseCases.Common.Models;
+using CleanArch.Utils.AutoMapper;
 
 namespace CleanArch.Controllers.Catalog.Products.Utils;
 
@@ -17,7 +19,8 @@ internal class ProductMappingProfile : Profile
     {
         CreateMap<GetProductPageRequest, GetProductsPageQuery>();
 
-        CreateMap<PaggingDto<ProductPaggingItemDto>, PaggingResponse<ProductPaggingItemResponse>>();
+        CreateMap<PaggingDto<ProductPaggingItemDto>, PaggingResponse<ProductPaggingItemResponse>>()
+            .ForRecordParam(d => d.TotalPages, o => o.MapFrom(s => s.TotalPages));
         CreateMap<ProductPaggingItemDto, ProductPaggingItemResponse>();
         CreateMap<ImagePaggingItemDto, ProductImagePaggingItemResponse>();
 
