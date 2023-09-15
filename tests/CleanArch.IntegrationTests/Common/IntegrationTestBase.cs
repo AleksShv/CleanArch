@@ -5,12 +5,12 @@ using CleanArch.DataAccess.Contracts;
 
 namespace CleanArch.IntegrationTests.Common;
 
-public abstract class IntegrationTestBaseFixture : IClassFixture<IntegrationTestWebApplicationFactory<Program>>, IAsyncLifetime, IDisposable
+public abstract class IntegrationTestBase : IClassFixture<IntegrationTestWebApplicationFactory<Program>>, IAsyncLifetime, IDisposable
 {
     protected readonly IntegrationTestWebApplicationFactory<Program> ApplicationFactory;
     protected readonly Lazy<HttpClient> HttpClient;
 
-    public IntegrationTestBaseFixture(IntegrationTestWebApplicationFactory<Program> factory)
+    public IntegrationTestBase(IntegrationTestWebApplicationFactory<Program> factory)
     {
         ApplicationFactory = factory;
         HttpClient = new(factory.CreateClient);

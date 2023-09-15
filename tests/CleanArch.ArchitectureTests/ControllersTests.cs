@@ -1,4 +1,5 @@
 ﻿using NetArchTest.Rules;
+
 using CleanArch.DataAccess.Contracts;
 using CleanArch.DataAccess.SqlServer;
 using CleanArch.Controllers.Common;
@@ -8,6 +9,15 @@ namespace CleanArch.ArchitectureTests;
 public class ControllersTests
 {
     private readonly Type _baseControllerType = typeof(ApiControllerBase);
+    private readonly PredicateList _targetTypes;
+
+    public ControllersTests()
+    {
+        _targetTypes = Types
+            .InCurrentDomain()
+            .That().Inherit(_baseControllerType);
+    }
+
 
     [Fact]
     public void ControllersShouldNotHaveDependencyOnDataAccess()
@@ -20,9 +30,7 @@ public class ControllersTests
         };
 
         // Act
-        var result = Types
-            .InCurrentDomain()
-            .That().Inherit(_baseControllerType)
+        var result = _targetTypes
             .ShouldNot().HaveDependencyOnAny(dataAccessDependencies)
             .GetResult()
             .IsSuccessful;
@@ -35,9 +43,7 @@ public class ControllersTests
     public void ControllersShouldNotHaveDependencyOnInfrastructure()
     {
         // Act
-        var result = Types
-            .InCurrentDomain()
-            .That().Inherit(_baseControllerType)
+        var result = _targetTypes
             .ShouldNot().HaveDependencyOnAny("CleanArch.Infrastructure.Contracts", "CleanArch.Infrastructure.Implementations")
             .GetResult()
             .IsSuccessful;
@@ -50,10 +56,8 @@ public class ControllersTests
     public void ControllersShouldNotHaveDependencyOnEntities()
     {
         // Act
-        var result = Types
-            .InCurrentDomain()
-            .That().Inherit(_baseControllerType)
-            .ShouldNot().HaveDependencyOnAny("CleanArch.Entities", "CleanArxh.DomainServices")
+        var result = _targetTypes
+            .ShouldNot().HaveDependencyOnAny("CleanArch.Entities", "CleanArch.DomainServices")
             .GetResult()
             .IsSuccessful;
 

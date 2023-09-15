@@ -19,7 +19,11 @@ jobs:
         dotnet-version: 7.0.x
     - name: Restore dependencies
       run: dotnet restore CleanArch.sln
-    - name: Build
+    - name: Run build
       run: dotnet build CleanArch.sln -c Release --no-restore
-    - name: Test
-      run: dotnet test CleanArch.sln --no-build --verbosity normal
+    - name: Run architecture tests
+      run: dotnet test tests/CleanArch.ArchitectureTests/CleanArch.ArchitectureTests.csproj --no-build --verbosity normal
+    - name: Run unit tests
+      run: dotnet test tests/CleanArch.UnitTests/CleanArch.UnitTests.csproj --no-build --verbosity normal
+    - name: Run integration tests
+      run: dotnet test tests/CleanArch.IntegrationTests/CleanArch.IntegrationTests.csproj --no-build --verbosity normal

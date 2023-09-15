@@ -25,6 +25,9 @@ public static class DependencyInjection
 
         services.AddAutoMapper((provider, cfg) =>
         {
+            cfg.ValueTransformers
+                .Add(new(typeof(string), (string v) => v.Trim()));
+
             cfg.ConstructServicesUsing(provider.GetRequiredService);
         }, assembly);
 

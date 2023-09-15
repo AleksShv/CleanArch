@@ -6,7 +6,7 @@ public record ProductDetailsDto(
     string Description,
     decimal Price,
     string SKU,
-    List<ProductImageDetailsDto> Images,
+    ProductImageDetailsDto[] Images,
     ProductOwnerDetailsDto Owner);
 
 public record ProductImageDetailsDto(
