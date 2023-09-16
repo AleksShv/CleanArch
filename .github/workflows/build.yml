@@ -13,17 +13,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+  
+    - name: Start dependencies (docker-compose)
+      run: docker-compose up -d
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
+
     - name: Restore dependencies
       run: dotnet restore CleanArch.sln
+
     - name: Run build
       run: dotnet build CleanArch.sln -c Release --no-restore
+
     - name: Run architecture tests
       run: dotnet test tests/CleanArch.ArchitectureTests/CleanArch.ArchitectureTests.csproj
+
     - name: Run unit tests
       run: dotnet test tests/CleanArch.UnitTests/CleanArch.UnitTests.csproj
+
     - name: Run integration tests
       run: dotnet test tests/CleanArch.IntegrationTests/CleanArch.IntegrationTests.csproj
