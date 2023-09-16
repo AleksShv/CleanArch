@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-using AutoMapper;
+﻿using AutoMapper;
 
 using CleanArch.Controllers.Catalog.Products.Requests;
 using CleanArch.Controllers.Catalog.Products.Responses;
@@ -11,7 +9,6 @@ using CleanArch.UseCases.Catalog.Products.GetProductsPage;
 using CleanArch.UseCases.Catalog.Products.UpdateProduct;
 using CleanArch.UseCases.Catalog.Products.UpdateProductImageOrder;
 using CleanArch.UseCases.Common.Models;
-using CleanArch.Utils;
 using CleanArch.Utils.AutoMapper;
 
 namespace CleanArch.Controllers.Catalog.Products.Utils;
@@ -20,11 +17,8 @@ internal class ProductMappingProfile : Profile
 {
     public ProductMappingProfile()
     {
-        Expression<Func<string, string>> trimmer = 
-            value => value.IsNullOrWhiteSpaces() ? value : value.Trim();
-
         CreateMap<GetProductPageRequest, GetProductsPageQuery>()
-            .ValueTransformers.Add(trimmer);
+            .ValueTransformers.Add(MappingValueTransformers.Trimmer);
 
         CreateMap<PaggingDto<ProductPaggingItemDto>, PaggingResponse<ProductPaggingItemResponse>>()
             .ForRecordParam(d => d.TotalPages, o => o.MapFrom(s => s.TotalPages));
@@ -36,10 +30,10 @@ internal class ProductMappingProfile : Profile
         CreateMap<ProductOwnerDetailsDto, ProductOwnerDetailsResponse>();
 
         CreateMap<AddProductRequest, AddProductCommand>()
-            .ValueTransformers.Add(trimmer);
+            .ValueTransformers.Add(MappingValueTransformers.Trimmer);
 
         CreateMap<UpdateProductRequest, UpdateProductCommand>()
-            .ValueTransformers.Add(trimmer);
+            .ValueTransformers.Add(MappingValueTransformers.Trimmer);
 
         CreateMap<UpdateProductImageOrderRequest, UpdateProductImageOrderCommand>();
     }
