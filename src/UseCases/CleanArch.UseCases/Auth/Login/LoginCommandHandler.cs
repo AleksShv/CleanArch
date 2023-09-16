@@ -5,6 +5,7 @@ using CleanArch.DataAccess.Contracts;
 using CleanArch.Entities;
 using CleanArch.Utils;
 using CleanArch.Infrastructure.Contracts.Authentication;
+using CleanArch.UseCases.Internal.Exceptions;
 
 namespace CleanArch.UseCases.Auth.Login;
 
