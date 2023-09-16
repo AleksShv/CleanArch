@@ -10,7 +10,9 @@ public static class DatabaseInitializer
 {
     public static void InitFromMigrations(IServiceProvider provider, bool fromScratch = false)
     {
-        var ctx = provider.GetRequiredService<ApplicationDbContext>();
+        using var scope = provider.CreateScope();
+
+        var ctx = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
         if (fromScratch)
         {
@@ -22,9 +24,11 @@ public static class DatabaseInitializer
 
     public static void SeedData(IServiceProvider provider)
     {
-        var ctx = provider.GetRequiredService<ApplicationDbContext>();
+        using var scope = provider.CreateScope();
+
+        var ctx = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         
-        var password = provider.GetRequiredService<IPasswordHasher>().Hash("123456");
+        var password = scope.ServiceProvider.GetRequiredService<IPasswordHasher>().Hash("123456");
 
         if (!ctx.Users.Any())
         {

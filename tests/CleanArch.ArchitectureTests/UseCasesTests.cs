@@ -27,7 +27,7 @@ public class UseCasesTests
     }
 
     [Fact]
-    public void Requests_Dtos_ShouldBeRecords()
+    public void UseCasesContracts_ShouldBeRecords()
     {
         // Act
         var result = _targetTypes
@@ -38,7 +38,7 @@ public class UseCasesTests
     }
 
     [Fact]
-    public void Requests_Dtos_ShouldContainsArrayCollections()
+    public void UseCasesContracts_ShouldContainsArrayCollections()
     {
         // Arrange
         var collectionsTypes = _targetTypes

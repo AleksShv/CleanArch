@@ -87,7 +87,10 @@ builder.Services
 		options.LowercaseUrls = true;
 		options.LowercaseQueryStrings = true;
 	})
-	.AddControllers()
+	.AddControllers(options =>
+	{
+		options.SuppressAsyncSuffixInActionNames = false;
+	})
 	.AddApplicationPart(AssemblyProperties.AssemblyReference)
 	.AddJsonOptions(options =>
 	{
@@ -174,17 +177,16 @@ builder.Services
 
 #endregion
 
-
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-	DatabaseInitializer.InitFromMigrations(scope.ServiceProvider);
-	DatabaseInitializer.SeedData(scope.ServiceProvider);
-}
 
 if (app.Environment.IsDevelopment())
 {
+	using (var scope = app.Services.CreateScope())
+	{
+		DatabaseInitializer.InitFromMigrations(scope.ServiceProvider);
+		DatabaseInitializer.SeedData(scope.ServiceProvider);
+	}
+
 	app.UseSwagger();
 	app.UseSwaggerUI();
 	app.UseMiniProfiler();

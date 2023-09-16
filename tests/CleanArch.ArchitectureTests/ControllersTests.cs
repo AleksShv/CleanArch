@@ -20,7 +20,7 @@ public class ControllersTests
 
 
     [Fact]
-    public void ControllersShouldNotHaveDependencyOnDataAccess()
+    public void Controllers_ShouldNotHaveDependencyOnDataAccess()
     {
         // Arrange
         var dataAccessDependencies = new string?[]
@@ -40,7 +40,7 @@ public class ControllersTests
     }
 
     [Fact]
-    public void ControllersShouldNotHaveDependencyOnInfrastructure()
+    public void Controllers_ShouldNotHaveDependencyOnInfrastructure()
     {
         // Act
         var result = _targetTypes
@@ -53,7 +53,7 @@ public class ControllersTests
     }
 
     [Fact]
-    public void ControllersShouldNotHaveDependencyOnEntities()
+    public void Controllers_ShouldNotHaveDependencyOnEntities()
     {
         // Act
         var result = _targetTypes

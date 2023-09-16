@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+
 using CleanArch.Entities;
 
 namespace CleanArch.UseCases.Catalog.Products.GetProductDetails;

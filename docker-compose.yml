@@ -43,7 +43,7 @@ services:
         REDIS_PASSWORD: '123456'
     volumes:
         - redis:/data
-      
+
 volumes:
   grid-fs:
     driver: local

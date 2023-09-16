@@ -3,17 +3,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 using CleanArch.DataAccess.Contracts;
 
-namespace CleanArch.IntegrationTests.Common;
+namespace CleanArch.IntegrationTests.Base;
 
-public abstract class IntegrationTestBase : IClassFixture<IntegrationTestWebApplicationFactory<Program>>, IAsyncLifetime, IDisposable
+[Collection("Db")]
+public abstract class IntegrationTestBase : IClassFixture<IntegrationTestWebApplicationFactory>, IAsyncLifetime, IDisposable
 {
-    protected readonly IntegrationTestWebApplicationFactory<Program> ApplicationFactory;
-    protected readonly Lazy<HttpClient> HttpClient;
+    protected readonly IntegrationTestWebApplicationFactory ApplicationFactory;
 
-    public IntegrationTestBase(IntegrationTestWebApplicationFactory<Program> factory)
+    public IntegrationTestBase(IntegrationTestWebApplicationFactory factory)
     {
         ApplicationFactory = factory;
-        HttpClient = new(factory.CreateClient);
     }
 
     public async Task ExecuteScopeAsync(Func<IServiceProvider, Task> action)
