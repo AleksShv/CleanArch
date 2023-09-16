@@ -1,6 +1,6 @@
 ﻿using CleanArch.UseCases.Common.Exceptions;
 
-namespace CleanArch.UseCases.Auth.Login;
+namespace CleanArch.UseCases.Internal.Exceptions;
 
 public class UserNotFoundException : UseCaseException
 {

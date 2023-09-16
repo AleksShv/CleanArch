@@ -1,6 +1,6 @@
 ﻿using CleanArch.UseCases.Common.Exceptions;
 
-namespace CleanArch.UseCases.Purchasing.Exceptions;
+namespace CleanArch.UseCases.Internal.Exceptions;
 
 internal class SupplyNotFoundException : UseCaseException
 {

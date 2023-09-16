@@ -3,7 +3,7 @@ using MediatR;
 
 using CleanArch.DataAccess.Contracts;
 using CleanArch.UseCases.Common.Utils;
-using CleanArch.UseCases.Purchasing.Exceptions;
+using CleanArch.UseCases.Internal.Exceptions;
 
 namespace CleanArch.UseCases.Purchasing.Vendors.UpdateVendor;
 

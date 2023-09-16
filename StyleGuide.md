@@ -182,6 +182,15 @@ Use Cases Layer:
     └── ProductNotFoundException.cs
 ```
 
+Либо же вынести это всё в отдельный `Internal` каталог:
+```
+.
+└── Internal/
+    ├── Exceptions/
+    ├── Utils/
+    └── Services/
+```
+
 Еще один сбособ компоновки файлов Bounded Context -> Entity -> Functional Responsibility:
 ```
 .
@@ -238,14 +247,12 @@ Use Cases Layer:
 
 Из компонент `CleanArch.UseCases` можно извлечь следующие вспомогательные компоненты:
 - `CleanArch.UseCases.Common`,
-- `CleanArch.UseCases.Base`,
-- `CleanArch.UseCases.InternalServices`.
+- `CleanArch.UseCases.Base`.
 
 `CleanArch.UseCases.Common` содержит общий функционал используемый запросами/обработчиками.
 
-`CleanArch.UseCases.Base` содержит базовую логику/модели которые могут переиспользоваться в других проектах.
+`CleanArch.UseCases.Base` содержит базовый функционал, на котором строятся все запросы/обработчики.
 
-`CleanArch.UseCases.InternalServices` содержит общую логику взаимодействия с доменом, использующеюся несколькими обработчиками.
 
 ### *2.4 Infrastructure*
 Данный слой содержит реализации:

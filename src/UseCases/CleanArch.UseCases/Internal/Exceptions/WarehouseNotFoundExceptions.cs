@@ -1,6 +1,6 @@
 ﻿using CleanArch.UseCases.Common.Exceptions;
 
-namespace CleanArch.UseCases.Warehouses.Exception;
+namespace CleanArch.UseCases.Internal.Exceptions;
 
 internal class WarehouseNotFoundExceptions : UseCaseException
 {

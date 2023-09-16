@@ -35,7 +35,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4267E581
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution items", "{67C9C77B-84B5-4B17-985E-0AD85294E4C9}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		Readme.md = Readme.md
 		StyleGuide.md = StyleGuide.md
 	EndProjectSection
@@ -58,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArch.Infrastructure.Ba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArch.Controllers.Common", "src\Controllers\CleanArch.Controllers.Common\CleanArch.Controllers.Common.csproj", "{2C10CC83-9396-4578-9C4E-C9D8AFF875C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArch.Utils.AutoMapper", "src\Utils\CleanArch.Utils.AutoMapper\CleanArch.Utils.AutoMapper.csproj", "{4436D155-6DFB-482D-B7CD-734B0781B289}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArch.Utils.AutoMapper", "src\Utils\CleanArch.Utils.AutoMapper\CleanArch.Utils.AutoMapper.csproj", "{4436D155-6DFB-482D-B7CD-734B0781B289}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

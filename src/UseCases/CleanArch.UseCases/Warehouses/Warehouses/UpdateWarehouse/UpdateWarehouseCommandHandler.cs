@@ -3,7 +3,7 @@ using MediatR;
 
 using CleanArch.DataAccess.Contracts;
 using CleanArch.UseCases.Common.Utils;
-using CleanArch.UseCases.Warehouses.Exception;
+using CleanArch.UseCases.Internal.Exceptions;
 
 namespace CleanArch.UseCases.Warehouses.Warehouses.UpdateWarehouse;
 
