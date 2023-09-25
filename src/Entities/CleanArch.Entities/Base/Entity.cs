@@ -32,7 +32,7 @@ public abstract class Entity<T> : IEquatable<Entity<T>>
     }
 
     public override string ToString()
-        => $"[{GetType().Name}] Id: {Id}";
+        => string.Format("{0}: {1}", GetType().Name, Id);
 
     public static bool operator ==(Entity<T> left, Entity<T> right)
         => left.Equals(right);

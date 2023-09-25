@@ -65,7 +65,7 @@ internal static class RelationalExtensions
         DateTimeOffset lastModifiedAt,
         string lastModifiedBy,
         CancellationToken cancellationToken = default)
-        where TEntity : class, IAuditableEntity
+        where TEntity : class, IAuditEntity
     {
         Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setAuditablePropertiesCall =
             auditableSetter => auditableSetter
@@ -81,7 +81,7 @@ internal static class RelationalExtensions
         DateTimeOffset lastModifiedAt,
         string lastModifiedBy,
         CancellationToken cancellationToken = default)
-        where TEntity : class, IAuditableEntity
+        where TEntity : class, IAuditEntity
     {
         throw new NotImplementedException();
     }

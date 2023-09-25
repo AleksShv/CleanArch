@@ -16,13 +16,15 @@ public static class DependencyInjection
             throw new ArgumentNullException(nameof(connectionString));
         }
 
-        services.AddSingleton<AuditableEntitiesInterceptor>();
-        
+        services.AddSingleton<AuditEntitiesInterceptor>();
+        services.AddSingleton<EntitiesHistoryInterceptor>();
+
         services.AddDbContextPool<ApplicationDbContext>((provider, options) =>
         {
             options.UseSqlServer(connectionString)
                 .AddInterceptors(
-                    provider.GetRequiredService<AuditableEntitiesInterceptor>())
+                    provider.GetRequiredService<AuditEntitiesInterceptor>(),
+                    provider.GetRequiredService<EntitiesHistoryInterceptor>())
                 .EnableSensitiveDataLogging();
         });
 

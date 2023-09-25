@@ -5,7 +5,7 @@ using CleanArch.Infrastructure.Contracts.UserProvider;
 
 namespace CleanArch.UseCases.Common.Handlers;
 
-internal class UserProvidedRequestHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
+internal abstract class UserProvidedRequestHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     public UserProvidedRequestHandler(ICurrentUserProvider userProvider)
@@ -23,7 +23,7 @@ internal class UserProvidedRequestHandler<TRequest, TResponse> : IRequestHandler
     }
 }
 
-internal class UserProvidedRequestHandler<TRequest> : IRequestHandler<TRequest>
+internal abstract class UserProvidedRequestHandler<TRequest> : IRequestHandler<TRequest>
     where TRequest : IRequest
 {
     public UserProvidedRequestHandler(ICurrentUserProvider userProvider)

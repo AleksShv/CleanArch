@@ -6,11 +6,11 @@ using CleanArch.Infrastructure.Contracts.UserProvider;
 
 namespace CleanArch.DataAccess.SqlServer.Interceptors;
 
-internal class AuditableEntitiesInterceptor : SaveChangesInterceptor
+internal class AuditEntitiesInterceptor : SaveChangesInterceptor
 {
     private readonly ICurrentUserProvider _userProvider;
 
-    public AuditableEntitiesInterceptor(ICurrentUserProvider userProvider)
+    public AuditEntitiesInterceptor(ICurrentUserProvider userProvider)
     {
         _userProvider = userProvider;
     }
@@ -30,8 +30,7 @@ internal class AuditableEntitiesInterceptor : SaveChangesInterceptor
     private void UpdateEntities(DbContext context)
     {
         var auditableEntries = context.ChangeTracker
-            .Entries<IAuditableEntity>()
-            .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+            .Entries<IAuditEntity>();
 
         string user;
 
@@ -56,7 +55,7 @@ internal class AuditableEntitiesInterceptor : SaveChangesInterceptor
                 entry.Property(x => x.LastModifiedBy).CurrentValue = user;
             }
 
-            if (entry.State == EntityState.Modified)
+            else if (entry.State == EntityState.Modified)
             {
                 entry.Property(x => x.LastModifiedAt).CurrentValue = now;
                 entry.Property(x => x.LastModifiedBy).CurrentValue = user;
@@ -64,8 +63,7 @@ internal class AuditableEntitiesInterceptor : SaveChangesInterceptor
         }
 
         var softDeletedEntries = context.ChangeTracker
-            .Entries<ISoftDeletableEntity>()
-            .Where(e => e.State == EntityState.Deleted);
+            .Entries<ISoftDeletableEntity>();
 
         foreach (var entry in softDeletedEntries)
         {

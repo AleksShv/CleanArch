@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 using CleanArch.DataAccess.Contracts;
 using CleanArch.Entities;
+using CleanArch.DataAccess.SqlServer.Models;
 
 namespace CleanArch.DataAccess.SqlServer;
 
@@ -35,6 +36,8 @@ internal class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<User> Users { get; init; }
     public DbSet<Avatar> Avatars { get; init; }
     public DbSet<RefreshToken> RefreshTokens { get; init; }
+
+    public DbSet<EntityHistory> EntityHistories { get; init; }
 
     public async Task<DbTransaction> GetTransactionAsync(CancellationToken cancellationToken = default)
     {

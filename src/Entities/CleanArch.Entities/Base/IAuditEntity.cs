@@ -1,6 +1,6 @@
 ﻿namespace CleanArch.Entities.Base;
 
-public interface IAuditableEntity
+public interface IAuditEntity
 {
     public string CreatedBy { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
