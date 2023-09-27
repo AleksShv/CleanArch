@@ -6,7 +6,9 @@ namespace CleanArch.IntegrationTests.Base;
 
 public class DbFixture : IDisposable
 {
-    private readonly ApplicationDbContext _context;
+    private ApplicationDbContext? _context;
+
+    private bool _disposed;
 
     public DbFixture()
     {
@@ -25,8 +27,23 @@ public class DbFixture : IDisposable
 
     public void Dispose()
     {
-        _context.Database.EnsureDeleted();
-        _context.Dispose();
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                _context?.Database.EnsureDeleted();
+                _context?.Dispose();
+                _context = null;
+            }
+
+            _disposed = true;
+        }
     }
 }
 

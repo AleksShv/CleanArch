@@ -8,7 +8,7 @@ public abstract class Entity<T> : IEquatable<Entity<T>>
     private int? _hashCode;
 
     [Key]
-    public T Id { get; set; } = default!;
+    public T Id { get; init; } = default!;
 
     public bool IsNew => Id.Equals(default);
 

@@ -1,35 +1,46 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 using CleanArch.DataAccess.Contracts;
 using CleanArch.DataAccess.SqlServer.Interceptors;
-using CleanArch.DataAccess.SqlServer.QueryServices;
+using CleanArch.Infrastructure.Contracts.MultiTenancy;
 
 namespace CleanArch.DataAccess.SqlServer;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddDataAccess(this IServiceCollection services, string? connectionString)
+    public static IServiceCollection AddDataAccess(this IServiceCollection services)
     {
-        if (string.IsNullOrWhiteSpace(connectionString))
-        {
-            throw new ArgumentNullException(nameof(connectionString));
-        }
+        services.AddSingleton<MultiTenancyInterceptor>();
 
-        services.AddSingleton<AuditEntitiesInterceptor>();
-        services.AddSingleton<EntitiesHistoryInterceptor>();
+        services.Scan(scan => scan
+            .FromCallingAssembly()
+                .AddClasses(c => c.AssignableTo<IInterceptor>())
+                    .AsSelf()
+                    .WithSingletonLifetime()
+                .AddClasses(c => c.Where(t => t.Name.EndsWith("Service")))
+                    .AsImplementedInterfaces()
+                    .WithTransientLifetime());
 
-        services.AddDbContextPool<ApplicationDbContext>((provider, options) =>
+        services.AddPooledDbContextFactory<ApplicationDbContext>((provider, options) =>
         {
+            var connectionString = provider
+                .GetRequiredService<ITenantProvider>()
+                .GetTenant()
+                .ConnectionString;
+
             options.UseSqlServer(connectionString)
                 .AddInterceptors(
                     provider.GetRequiredService<AuditEntitiesInterceptor>(),
-                    provider.GetRequiredService<EntitiesHistoryInterceptor>())
+                    provider.GetRequiredService<EntitiesHistoryInterceptor>(),
+                    provider.GetRequiredService<MultiTenancyInterceptor>())
                 .EnableSensitiveDataLogging();
         });
-
-        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-        services.AddTransient<IProductQueryService, SqlServerProductQueryService>();
+        services.AddScoped<TenantDbContextFactory>();
+        services.AddScoped<IApplicationDbContext>(sp => sp
+            .GetRequiredService<TenantDbContextFactory>()
+            .CreateDbContext());
 
         return services;
     }

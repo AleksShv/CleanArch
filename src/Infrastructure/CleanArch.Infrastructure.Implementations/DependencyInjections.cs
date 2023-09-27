@@ -11,6 +11,8 @@ using CleanArch.Infrastructure.Implementations.UserProvider.Options;
 using CleanArch.Infrastructure.Contracts.BlobStorage;
 using CleanArch.Infrastructure.Contracts.UserProvider;
 using CleanArch.Infrastructure.Contracts.Authentication;
+using CleanArch.Infrastructure.Contracts.MultiTenancy;
+using CleanArch.Infrastructure.Implementations.MultiTenancy;
 
 namespace CleanArch.Infrastructure.Implementations;
 
@@ -31,7 +33,19 @@ public static class DependencyInjections
             .AddTransient<ICurrentUserProvider, HttpCurrentUserProvider>();
     }
 
-    public static IServiceCollection AddApplicationAuth(this IServiceCollection services)
+    public static IServiceCollection AddTenantProvider(this IServiceCollection services)
+    {
+        return services
+            .AddOptions<MultiTenancySettings>()
+            .BindConfiguration(nameof(MultiTenancySettings))
+            .ValidateDataAnnotations()
+            .ValidateOnStart()
+            .Services
+            .AddHttpContextAccessor()
+            .AddTransient<ITenantProvider, HttpContextTenantProvider>();
+    }
+
+    public static IServiceCollection AddApplicationAuthentication(this IServiceCollection services)
     {
         services
             .ConfigureOptions<ConfigureJwtSettings>()

@@ -2,7 +2,7 @@
 
 namespace CleanArch.Entities;
 
-public class Warehouse : Entity<Guid>
+public class Warehouse : TenantEntity<Guid>
 {
     public string Name { get; set; } = default!;
     public string Location { get; set; } = default!;

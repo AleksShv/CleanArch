@@ -32,6 +32,11 @@ internal class AuditEntitiesInterceptor : SaveChangesInterceptor
         var auditableEntries = context.ChangeTracker
             .Entries<IAuditEntity>();
 
+        if (!auditableEntries.Any())
+        {
+            return;
+        }
+
         string user;
 
         try

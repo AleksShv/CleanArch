@@ -2,7 +2,7 @@
 
 namespace CleanArch.Entities;
 
-public class User : Entity<Guid>
+public class User : TenantEntity<Guid>
 {
     public string FirstName { get; set; } = default!;
     public string? LastName { get; set; }

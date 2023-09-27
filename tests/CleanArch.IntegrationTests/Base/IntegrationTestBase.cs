@@ -10,7 +10,7 @@ public abstract class IntegrationTestBase : IClassFixture<IntegrationTestWebAppl
 {
     protected readonly IntegrationTestWebApplicationFactory ApplicationFactory;
 
-    public IntegrationTestBase(IntegrationTestWebApplicationFactory factory)
+    protected IntegrationTestBase(IntegrationTestWebApplicationFactory factory)
     {
         ApplicationFactory = factory;
     }

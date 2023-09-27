@@ -2,7 +2,7 @@
 
 namespace CleanArch.Entities;
 
-public class Vendor : Entity<Guid>
+public class Vendor : TenantEntity<Guid>
 {
     public string Name { get; set; } = default!;
     public string OGRN { get; set; } = default!;

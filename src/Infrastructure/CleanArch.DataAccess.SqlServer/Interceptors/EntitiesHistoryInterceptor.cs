@@ -53,10 +53,15 @@ internal class EntitiesHistoryInterceptor : SaveChangesInterceptor
 
     private EntityHistory[] CreateHistories(DbContext context)
     {
-        var histories = new List<EntityHistory>();
-
         var entries = context.ChangeTracker
             .Entries<IHistoricalEntity>();
+
+        if (!entries.Any())
+        {
+            return Array.Empty<EntityHistory>();
+        }
+
+        var histories = new List<EntityHistory>();
 
         string user;
         try

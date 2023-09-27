@@ -3,31 +3,44 @@ using Microsoft.Extensions.DependencyInjection;
 
 using CleanArch.Entities;
 using CleanArch.Infrastructure.Contracts.Authentication;
+using CleanArch.DataAccess.Contracts;
 
 namespace CleanArch.DataAccess.SqlServer;
 
 public static class DatabaseInitializer
 {
-    public static void InitFromMigrations(IServiceProvider provider, bool fromScratch = false)
+    public static void InitFromMigrations(IServiceProvider provider)
     {
         using var scope = provider.CreateScope();
+        var ctx = (ApplicationDbContext) scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
 
-        var ctx = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-        if (fromScratch)
+        if (ctx.Database.GetMigrations().Any())
         {
-            ctx.Database.EnsureDeleted();
+            ctx.Database.Migrate();
         }
+    }
 
-        ctx.Database.Migrate();
+    public static void InitFromMigrations(IServiceProvider provider, string connectionString)
+    {
+        using var scope = provider.CreateScope();
+        var ctx = (ApplicationDbContext) scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
+
+        ctx.Database.SetConnectionString(connectionString);
+
+        if (ctx.Database.GetMigrations().Any())
+        {
+            ctx.Database.Migrate();
+        }
     }
 
     public static void SeedData(IServiceProvider provider)
     {
         using var scope = provider.CreateScope();
 
-        var ctx = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        
+        var ctx = scope.ServiceProvider
+            .GetRequiredService<TenantDbContextFactory>()
+            .CreateDbContext();
+
         var password = scope.ServiceProvider.GetRequiredService<IPasswordHasher>().Hash("123456");
 
         if (!ctx.Users.Any())
@@ -66,7 +79,7 @@ public static class DatabaseInitializer
             ctx.AddRange(user);
             ctx.SaveChanges();
         }
-        
+
         if (!ctx.Warehouses.Any())
         {
             var warehouses = new Warehouse[]
@@ -79,8 +92,8 @@ public static class DatabaseInitializer
                 },
                 new Warehouse
                 {
-                  Name = "Nortthern Warehouse",
-                  Address = "some northen address",
+                  Name = "Northern Warehouse",
+                  Address = "some northern address",
                   Location = "North"
                 },
                 new Warehouse
@@ -164,9 +177,9 @@ public static class DatabaseInitializer
                         WarehouseId = warehouses[1].Id
                     }
                 },
-                ProductWarehouses = new List<ProductWarehouse> 
-                { 
-                    new ProductWarehouse 
+                ProductWarehouses = new List<ProductWarehouse>
+                {
+                    new ProductWarehouse
                     {
                         Quantity = 3,
                         WarehouseId = warehouses[0].Id,
