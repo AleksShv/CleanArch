@@ -1,6 +1,5 @@
 ﻿using System.Data.Common;
 using System.Reflection;
-using System.Linq.Expressions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using CleanArch.DataAccess.Contracts;
 using CleanArch.Entities;
 using CleanArch.DataAccess.SqlServer.Models;
-using CleanArch.Entities.Base;
+using CleanArch.DataAccess.SqlServer.Utils;
 
 namespace CleanArch.DataAccess.SqlServer;
 
@@ -70,23 +69,6 @@ internal class ApplicationDbContext : DbContext, IApplicationDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-        var tenatExp = Expression.Constant(TenantId);
-
-        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-        {
-            if (typeof(ITenantEntity).IsAssignableFrom(entityType.ClrType))
-            {
-                var param = Expression.Parameter(entityType.ClrType, "x");
-                var property = Expression.Property(param, nameof(ITenantEntity.TenantId));
-                var lambdaExp = Expression.Lambda(Expression.Equal(property, tenatExp), param);
-
-                entityType.SetQueryFilter(lambdaExp);
-            }
-            else
-            {
-                throw new InvalidOperationException($"Entity {entityType.ClrType.FullName} not assignable to {typeof(ITenantEntity).FullName} interface");
-            }
-        }
+        MultiTenancyHelper.ConfigureTenantEntities(modelBuilder, TenantId);
     }
 }
