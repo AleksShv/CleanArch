@@ -25,7 +25,7 @@ internal static class MultiTenancyHelper
                 paramExpression, PropertyNameExpression);
             var queryFilterExpression = Expression.Lambda(Expression.Equal(tenantPropertyExpression, tenantExpression), paramExpression);
 
-            entityType.AddProperty("TenantId", typeof(int));
+            entityType.AddProperty(PropertyName, typeof(int));
             entityType.SetQueryFilter(queryFilterExpression);
         }
     }
