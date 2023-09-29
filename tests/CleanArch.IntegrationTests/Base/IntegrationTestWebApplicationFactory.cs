@@ -22,6 +22,7 @@ public class IntegrationTestWebApplicationFactory : WebApplicationFactory<Progra
             .AddInMemoryCollection(new Dictionary<string, string?>
             {
                 { "ConnectionStrings:SqlServer", _fixture.ConnectionString },
+                { "ConnectionStrings:Redis", "localhost:6379,password=123456" },
 
                 { "BlobStorageSettings:ConnectionString", "mongodb://root:123456@localhost:27017" },
                 { "BlobStorageSettings:DatabaseName", "test_db" },
