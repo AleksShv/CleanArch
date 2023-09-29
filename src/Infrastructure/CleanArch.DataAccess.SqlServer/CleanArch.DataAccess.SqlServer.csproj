@@ -24,6 +24,7 @@
   <ItemGroup>
 	<ProjectReference Include="..\..\UseCases\CleanArch.DataAccess.Contracts\CleanArch.DataAccess.Contracts.csproj" />
 	<ProjectReference Include="..\..\UseCases\CleanArch.Infrastructure.Contracts\CleanArch.Infrastructure.Contracts.csproj" />
+	<ProjectReference Include="..\..\Utils\CleanArch.Utils\CleanArch.Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

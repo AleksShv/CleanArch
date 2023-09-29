@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using CleanArch.Infrastructure.Contracts.UserProvider;
 using CleanArch.DataAccess.SqlServer.Models;
 using CleanArch.Entities.Base;
+using CleanArch.Utils;
 
 namespace CleanArch.DataAccess.SqlServer.Interceptors;
 
@@ -68,42 +69,65 @@ internal class EntitiesHistoryInterceptor : SaveChangesInterceptor
             user = "System";
         }
 
+        var now = DateTimeOffset.UtcNow;
+
         foreach (var entry in entries)
         {
-            if (entry.State is EntityState.Added)
-            {
-                var payload = entry.Properties
-                    .ToDictionary(p => p.Metadata.Name, p => p.CurrentValue);
+            var entryEntityType = entry.Entity.GetType();
+            var entityType = context.Model.FindEntityType(entryEntityType);
 
-                AddHistoryToList(histories, entry, user, "Added", payload);
+            var key = entityType
+                ?.FindPrimaryKey()
+                ?.Properties
+                ?.Select(p => p.Name)
+                ?.Single();
+
+            var entityId = key is not null
+                ? entry.Property(key).OriginalValue?.ToString()
+                : null;
+
+            if (entityType is null || string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(entityId))
+            {
+                throw new InvalidOperationException($"Entity {entryEntityType.Name} or its primary key not found");
             }
 
-            else if (entry.State is EntityState.Modified)
+            (string Action, Dictionary<string, object?>? Payload)? changings = entry.State switch
             {
-                var payload = entry.Properties
-                    .Where(p => p.IsModified)
-                    .Where(p => p.CurrentValue != p.OriginalValue)
-                    .ToDictionary(p => p.Metadata.Name, p => p.CurrentValue);
+                EntityState.Added => 
+                (
+                    Enum.GetName(EntityState.Added)!, 
+                    entry.Properties
+                        .ToDictionary(p => p.Metadata.Name, p => p.CurrentValue)
+                ),
+                EntityState.Modified => 
+                (
+                    Enum.GetName(EntityState.Modified)!, 
+                    entry.Properties
+                        .Where(p => p.IsModified)
+                        .Where(p => p.CurrentValue != p.OriginalValue)
+                        .ToDictionary(p => p.Metadata.Name, p => p.CurrentValue)
+                ),
+                EntityState.Deleted => (
+                    Enum.GetName(EntityState.Detached)!, 
+                    null
+                ),
+                _ => null
+            };
 
-                AddHistoryToList(histories, entry, user, "Updated", payload);
-            }
-
-            else if (entry.State is EntityState.Deleted)
+            if (changings.HasValue)
             {
-                AddHistoryToList(histories, entry, user, "Deleted", null);
+                histories.Add(new()
+                {
+                    EntityType = entityType.ClrType.Name,
+                    EntityId = entityId,
+                    CreatedAt = now,
+                    Originator = user,
+                    Action = changings.Value.Action,
+                    Payload = changings.Value.Payload
+                });
             }
         }
 
         return histories.ToArray();
     }
-
-    private static void AddHistoryToList(List<EntityHistory> list, EntityEntry<IHistoricalEntity> entry, string user, string action, object? payload)
-        => list.Add(new EntityHistory
-        {
-            EntityType = entry.Entity.ToString()!,
-            CreatedAt = DateTimeOffset.UtcNow,
-            Originator = user,
-            Action = action,
-            Payload = payload,
-        });
 }
