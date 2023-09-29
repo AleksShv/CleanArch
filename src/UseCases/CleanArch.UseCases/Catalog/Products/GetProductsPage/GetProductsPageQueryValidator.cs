@@ -10,6 +10,6 @@ internal class GetProductsPageQueryValidator : AbstractValidator<GetProductsPage
             .GreaterThanOrEqualTo(0);
 
         RuleFor(x => x.PageSize)
-            .GreaterThan(1);
+            .GreaterThanOrEqualTo(1);
     }
 }

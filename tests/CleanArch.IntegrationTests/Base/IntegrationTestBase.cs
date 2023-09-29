@@ -6,11 +6,11 @@ using CleanArch.DataAccess.Contracts;
 namespace CleanArch.IntegrationTests.Base;
 
 [Collection("Db")]
-public abstract class IntegrationTestBase : IClassFixture<IntegrationTestWebApplicationFactory>, IAsyncLifetime, IDisposable
+public abstract class IntegrationTestBase : IClassFixture<IntegrationTestWebApplicationFactory>, IAsyncLifetime
 {
     protected readonly IntegrationTestWebApplicationFactory ApplicationFactory;
 
-    public IntegrationTestBase(IntegrationTestWebApplicationFactory factory)
+    protected IntegrationTestBase(IntegrationTestWebApplicationFactory factory)
     {
         ApplicationFactory = factory;
     }
@@ -39,9 +39,6 @@ public abstract class IntegrationTestBase : IClassFixture<IntegrationTestWebAppl
     public virtual Task InitializeAsync()
         => Task.CompletedTask;
 
-    public async Task DisposeAsync()
-        => await ApplicationFactory.DisposeAsync();
-
-    public virtual void Dispose()
-        => ApplicationFactory.Dispose();
+    public virtual Task DisposeAsync()
+        => Task.CompletedTask;
 }
