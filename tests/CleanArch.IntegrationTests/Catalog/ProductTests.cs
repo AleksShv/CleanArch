@@ -89,14 +89,14 @@ public class ProductTests : IntegrationTestBase
         // Act
         await _client.PutAsync($"api/products/{productId}", JsonContent.Create(request));
 
-        // Act
+
+        // Assert
         productResponse = await _client
             .GetAsync($"api/products/{productId}");
 
         var updatedProduct = await productResponse.Content
             .ReadFromJsonAsync<ProductDetailsResponse>();
 
-        // Assert
         Assert.NotNull(product);
         Assert.NotNull(updatedProduct);
         Assert.Equal(product.Id, updatedProduct.Id);
