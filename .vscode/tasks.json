@@ -1,0 +1,55 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/CleanArch.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/CleanArch.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/CleanArch.sln"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "compose up",
+            "command": "docker",
+            "type": "shell",
+            "args": ["compose", "up", "-d", "--build"],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "compose down",
+            "command": "docker",
+            "type": "shell",
+            "args": ["compose", "down"],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

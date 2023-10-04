@@ -7,6 +7,9 @@ services:
       - ASPNETCORE_URLS=https://localhost;http://localhost
       - ASPNETCORE_Kestrel__Certificates__Default__Password=123456
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - 443:443
+      - 80:80
     build:
       context: .
       dockerfile: src/Hosts/CleanArch.PublicApi/Dockerfile

@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Swagger",
+            "request": "launch",
+            "type": "chrome",
+            "url": "https://localhost:443/swagger/index.html",
+        },
+        {
+            "name": "Attach Debug",
+            "type": "docker",
+            "request": "attach",
+            "platform": "netCore",
+            "containerName": "cleanarch-cleanarch.publicapi-1",
+            "sourceFileMap": {
+                "/src": "${workspaceFolder}"
+            },
+            "netCore": {
+                "debuggerPath": "/remote_debugger/vsdbg"
+            }
+        }
+
+    ]
+}
