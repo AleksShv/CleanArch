@@ -3,14 +3,21 @@ version: '3.8'
 services:
   cleanarch.publicapi:
     image: ${DOCKER_REGISTRY-}cleanarchpublicapi
+    environment: 
+      - ASPNETCORE_URLS=https://localhost;http://localhost
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123456
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     build:
       context: .
       dockerfile: src/Hosts/CleanArch.PublicApi/Dockerfile
+    volumes:
+      - ${HOME}/.microsoft/usersecrets/:/usersecrets/
+      - ${HOME}/.aspnet/https/:/https/
     depends_on:
         - sql-server-db
         - mongo-grid-fs
         - redis
-
+        
   sql-server-db:
     container_name: sql-server-db
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -45,6 +52,8 @@ services:
         - redis:/data
 
 volumes:
+  cleanarch.publicapi:
+    driver: local
   grid-fs:
     driver: local
   redis:
