@@ -25,7 +25,11 @@ public class IntegrationTestWebApplicationFactory : WebApplicationFactory<Progra
                 { "ConnectionStrings:Redis", "localhost:6379,password=123456" },
 
                 { "BlobStorageSettings:ConnectionString", "mongodb://root:123456@localhost:27017" },
-                { "BlobStorageSettings:DatabaseName", "test_db" }
+                { "BlobStorageSettings:DatabaseName", "test_db" },
+
+                { "MultiTenancySettings:DefaultConnection", _fixture.ConnectionString },
+                { "MultiTenancySettings:Tenants:1:ConnectionString", null },
+                { "MultiTenancySettings:Tenants:2:ConnectionString", null }
             })
             .Build();
         builder.UseConfiguration(configuration);

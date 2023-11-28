@@ -1,8 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using CleanArch.Entities.Base;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CleanArch.Entities;
 
-public class ProductWarehouse
+public class ProductWarehouse : ITenantEntity
 {
     public Guid ProductId { get; set; }
 
@@ -15,4 +16,6 @@ public class ProductWarehouse
     public Warehouse? Warehouse { get; set; }
 
     public int Quantity { get; set; }
+
+    public int TenantId {  get; set; }
 }

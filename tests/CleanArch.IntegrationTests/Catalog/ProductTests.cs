@@ -29,6 +29,7 @@ public class ProductTests : IntegrationTestBase
         var token = (await response.Content.ReadFromJsonAsync<LoginResultDto>())?.AccessToken;
 
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        _client.DefaultRequestHeaders.Add("X-TenantId", "1");
     }
 
     [Fact]

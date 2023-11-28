@@ -4,7 +4,7 @@ using CleanArch.Entities.Base;
 
 namespace CleanArch.Entities;
 
-public class Product : Entity<Guid>, IAuditEntity, ISoftDeletableEntity, IHistoricalEntity
+public class Product : TenantEntity<Guid>, IAuditEntity, ISoftDeletableEntity, IHistoricalEntity
 {
     public string Title { get; set; } = default!;
     public string Description { get; set; } = default!;

@@ -2,7 +2,7 @@
 
 namespace CleanArch.DataAccess.SqlServer.Models;
 
-public class EntityHistory : Entity<long>
+public class EntityHistory : TenantEntity<long>
 {
     public string EntityType { get; set; } = default!;
     public string EntityId { get; set; } = default!;

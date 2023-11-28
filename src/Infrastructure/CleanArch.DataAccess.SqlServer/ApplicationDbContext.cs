@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using CleanArch.DataAccess.Contracts;
 using CleanArch.Entities;
 using CleanArch.DataAccess.SqlServer.Models;
+using CleanArch.DataAccess.SqlServer.Utils;
 
 namespace CleanArch.DataAccess.SqlServer;
 
@@ -18,6 +19,8 @@ internal class ApplicationDbContext : DbContext, IApplicationDbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     { }
+
+    internal int TenantId { get; set; }
 
     public DbSet<Product> Products { get; init; }
     public DbSet<ProductImage> ProductImages { get; init; }
@@ -66,5 +69,6 @@ internal class ApplicationDbContext : DbContext, IApplicationDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        MultiTenancyHelper.ConfigureTenantEntities(modelBuilder, TenantId);
     }
 }

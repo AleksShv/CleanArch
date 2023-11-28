@@ -4,7 +4,7 @@ using CleanArch.Entities.Base;
 
 namespace CleanArch.Entities;
 
-public class ProductImage : FileEntity<Guid>
+public class ProductImage : FileEntity<Guid>, ITenantEntity
 {
     public int Order { get; set; }
 
@@ -12,4 +12,6 @@ public class ProductImage : FileEntity<Guid>
 
     [NotNull]
     public Product? Product { get; set; }
+
+    public int TenantId {  get; set; }
 }

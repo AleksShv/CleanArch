@@ -4,7 +4,7 @@ using CleanArch.Entities.Base;
 
 namespace CleanArch.Entities;
 
-public class RefreshToken : Entity<Guid>
+public class RefreshToken : TenantEntity<Guid>
 {
     public Guid UserId { get; set; }
 

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Options;
 using FluentValidation;
 using Serilog;
 using Serilog.Events;
@@ -23,6 +24,7 @@ using CleanArch.Infrastructure.Implementations.BlobStorage;
 using CleanArch.Infrastructure.BackgroundWorkers;
 using CleanArch.UseCases.Common.Exceptions;
 using CleanArch.Controllers.Common;
+using CleanArch.Infrastructure.Implementations.MultiTenancy;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,23 +81,7 @@ builder.Services.AddMiniProfiler(options =>
 #endregion
 
 
-#region Configur Web
-
-builder.Services
-	.AddRouting(options =>
-	{
-		options.LowercaseUrls = true;
-		options.LowercaseQueryStrings = true;
-	})
-	.AddControllers(options =>
-	{
-		options.SuppressAsyncSuffixInActionNames = false;
-	})
-	.AddApplicationPart(AssemblyProperties.AssemblyReference)
-	.AddJsonOptions(options =>
-	{
-		options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-	});
+#region Configure Web
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -123,6 +109,14 @@ builder.Services.AddSwaggerGen(options =>
 		Type = SecuritySchemeType.Http,
 		BearerFormat = "JWT",
 		Scheme = "Bearer"
+	});
+
+	options.AddSecurityDefinition("X-TenantId", new OpenApiSecurityScheme
+	{
+		Name = "X-TenantId",
+		In = ParameterLocation.Header,
+		Description = "Tenant ID",
+		Type = SecuritySchemeType.ApiKey,
 	});
 
 	options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -157,22 +151,24 @@ builder.Services.AddStackExchangeRedisCache(options =>
 
 #region Configure Main Application 
 
-var dbConnection = builder.Configuration.GetConnectionString("SqlServer");
-var blobStorageSettings = builder.Configuration.GetRequiredSection(nameof(BlobStorageSettings)).Get<BlobStorageSettings>()!;
+var blobStorageSettings = builder.Configuration
+	.GetRequiredSection(nameof(BlobStorageSettings))
+	.Get<BlobStorageSettings>()!;
 
 builder.Services
 	.AddPublicApiControllers()
 	.AddUseCases()
+	.AddTenantProvider()
 	.AddUserProvider(options =>
 	{
 		options.IdClaimName = ClaimTypes.NameIdentifier;
 		options.RolesClaimName = ClaimTypes.Role;
-		options.UsernameClaimName = ClaimTypes.Name;
+		options.UserNameClaimName = ClaimTypes.Name;
 		options.EmailClaimName = ClaimTypes.Email;
 	})
-	.AddDataAccess(dbConnection)
+	.AddDataAccess()
 	.AddBlobStorage(blobStorageSettings)
-	.AddApplicationAuth()
+	.AddApplicationAuthentication()
 	.AddBackgroundWorkers();
 
 #endregion
@@ -185,6 +181,23 @@ if (app.Environment.IsDevelopment())
 	{
 		DatabaseInitializer.InitFromMigrations(scope.ServiceProvider);
 		DatabaseInitializer.SeedData(scope.ServiceProvider);
+	}
+
+	using (var scope = app.Services.CreateScope())
+	{
+		var tenancySettings = scope.ServiceProvider
+			.GetRequiredService<IOptions<MultiTenancySettings>>()
+			.Value;
+
+		var connections = tenancySettings.Tenants
+			.Where(t => !string.IsNullOrWhiteSpace(t.ConnectionString))
+			.Select(t => t.ConnectionString)
+			.Distinct();
+
+		foreach (var connectionString in connections)
+		{
+			DatabaseInitializer.InitFromMigrations(scope.ServiceProvider, connectionString!);
+		}
 	}
 
 	app.UseSwagger();

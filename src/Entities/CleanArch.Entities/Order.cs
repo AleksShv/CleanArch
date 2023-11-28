@@ -4,7 +4,7 @@ using CleanArch.Entities.Base;
 
 namespace CleanArch.Entities;
 
-public class Order : Entity<Guid>
+public class Order : TenantEntity<Guid>
 {
     public Guid CustomerId { get; set; }
 

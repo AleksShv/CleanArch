@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CleanArch.Entities;
 
-public class OrderItem : Entity<Guid>
+public class OrderItem : TenantEntity<Guid>
 {
     public Guid ProductId { get; set; }
 
