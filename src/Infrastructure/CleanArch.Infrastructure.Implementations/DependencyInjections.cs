@@ -28,7 +28,7 @@ public static class DependencyInjections
         return services
             .Configure(configure)
             .AddHttpContextAccessor()
-            .AddTransient<ICurrentUserProvider, HttpCurrentUserProvider>();
+            .AddScoped<ICurrentUserProvider, HttpCurrentUserProvider>();
     }
 
     public static IServiceCollection AddApplicationAuth(this IServiceCollection services)

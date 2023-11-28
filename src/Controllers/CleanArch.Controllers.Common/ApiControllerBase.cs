@@ -14,13 +14,13 @@ namespace CleanArch.Controllers.Common;
 [ProducesErrorResponseType(typeof(ErrorResponse))]
 public abstract class ApiControllerBase : ControllerBase
 {
-    public const string DefaultContentType = MediaTypeNames.Application.Octet;
+    protected const string DefaultContentType = MediaTypeNames.Application.Octet;
 
     private ISender? _sender;
     private IMapper? _mapper;
-    private IContentTypeProvider? _ontentTypeProvider;
+    private IContentTypeProvider? _contentTypeProvider;
 
-    public ISender Sender => _sender ??= HttpContext.RequestServices.GetRequiredService<ISender>();
-    public IMapper Mapper => _mapper ??= HttpContext.RequestServices.GetRequiredService<IMapper>();
-    public IContentTypeProvider ContentTypeProvider => _ontentTypeProvider ??= new FileExtensionContentTypeProvider();
+    protected ISender Sender => _sender ??= HttpContext.RequestServices.GetRequiredService<ISender>();
+    protected IMapper Mapper => _mapper ??= HttpContext.RequestServices.GetRequiredService<IMapper>();
+    protected IContentTypeProvider ContentTypeProvider => _contentTypeProvider ??= new FileExtensionContentTypeProvider();
 }

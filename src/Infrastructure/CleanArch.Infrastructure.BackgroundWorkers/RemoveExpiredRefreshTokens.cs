@@ -17,7 +17,7 @@ internal class RemoveExpiredRefreshTokens : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if (!stoppingToken.IsCancellationRequested)
+        while (!stoppingToken.IsCancellationRequested)
         {
             using (var scope = _provider.CreateScope())
             {

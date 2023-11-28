@@ -3,16 +3,17 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 using CleanArch.Entities.Base;
 using CleanArch.Infrastructure.Contracts.UserProvider;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArch.DataAccess.SqlServer.Interceptors;
 
 internal class AuditEntitiesInterceptor : SaveChangesInterceptor
 {
-    private readonly ICurrentUserProvider _userProvider;
+    private readonly IServiceProvider _serviceProvider;
 
-    public AuditEntitiesInterceptor(ICurrentUserProvider userProvider)
+    public AuditEntitiesInterceptor(IServiceProvider serviceProvider)
     {
-        _userProvider = userProvider;
+        _serviceProvider = serviceProvider;
     }
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
@@ -33,32 +34,42 @@ internal class AuditEntitiesInterceptor : SaveChangesInterceptor
             .Entries<IAuditEntity>();
 
         string user;
-
-        try
+        using (var scope = _serviceProvider.CreateScope())
         {
-            user = _userProvider.GetUserId();
-        }
-        catch
-        {
-            user = "System";
+            try
+            {
+                user = scope.ServiceProvider
+                    .GetRequiredService<ICurrentUserProvider>()
+                    .GetUserId();
+            }
+            catch
+            {
+                user = "System";
+            }
         }
 
         var now = DateTimeOffset.UtcNow;
 
         foreach (var entry in auditableEntries)
         {
-            if (entry.State == EntityState.Added)
+            switch (entry.State)
             {
-                entry.Property(x => x.CreatedAt).CurrentValue = now;
-                entry.Property(x => x.CreatedBy).CurrentValue = user;
-                entry.Property(x => x.LastModifiedAt).CurrentValue = now;
-                entry.Property(x => x.LastModifiedBy).CurrentValue = user;
-            }
-
-            else if (entry.State == EntityState.Modified)
-            {
-                entry.Property(x => x.LastModifiedAt).CurrentValue = now;
-                entry.Property(x => x.LastModifiedBy).CurrentValue = user;
+                case EntityState.Added:
+                    entry.Property(x => x.CreatedAt).CurrentValue = now;
+                    entry.Property(x => x.CreatedBy).CurrentValue = user;
+                    entry.Property(x => x.LastModifiedAt).CurrentValue = now;
+                    entry.Property(x => x.LastModifiedBy).CurrentValue = user;
+                    break;
+                case EntityState.Modified:
+                    entry.Property(x => x.LastModifiedAt).CurrentValue = now;
+                    entry.Property(x => x.LastModifiedBy).CurrentValue = user;
+                    break;
+                case EntityState.Detached:
+                case EntityState.Unchanged:
+                case EntityState.Deleted:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -67,12 +78,11 @@ internal class AuditEntitiesInterceptor : SaveChangesInterceptor
 
         foreach (var entry in softDeletedEntries)
         {
-            if (entry.State == EntityState.Deleted)
-            {
-                entry.Property(x => x.IsDeleted).CurrentValue = true;
-                entry.Property(x => x.DeletedAt).CurrentValue = now;
-                entry.Property(x => x.DeletedBy).CurrentValue = user;
-            }
+            if (entry.State != EntityState.Deleted) continue;
+            
+            entry.Property(x => x.IsDeleted).CurrentValue = true;
+            entry.Property(x => x.DeletedAt).CurrentValue = now;
+            entry.Property(x => x.DeletedBy).CurrentValue = user;
         }
     }
 }

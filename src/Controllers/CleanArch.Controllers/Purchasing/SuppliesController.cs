@@ -20,7 +20,7 @@ public class SuppliesController : ApiControllerBase
     
     [HttpPut("{id}/complete")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> CompleteSuplyAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> CompleteSupplyAsync(Guid id, CancellationToken cancellationToken = default)
     {
         await Sender.Send(new CompleteSupplyCommand(id), cancellationToken);
         return NoContent();

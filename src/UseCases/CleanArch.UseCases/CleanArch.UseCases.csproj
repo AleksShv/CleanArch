@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <Folder Include="Ordering\Baskets\Add\" />
     <Folder Include="Ordering\Baskets\AddItem\" />
@@ -15,18 +13,16 @@
     <Folder Include="Ordering\Orders\Cancel\" />
     <Folder Include="Warehouses\Products\Transport\" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="DelegateDecompiler.EntityFrameworkCore5" Version="0.32.0" />
-    <PackageReference Include="FluentValidation" Version="11.7.1" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
-    <PackageReference Include="MediatR" Version="12.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.11" />
+    <PackageReference Include="FluentValidation" Version="11.8.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Scrutor" Version="4.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\Entities\CleanArch.DomainServices\CleanArch.DomainServices.csproj" />
     <ProjectReference Include="..\..\Utils\CleanArch.Utils.AutoMapper\CleanArch.Utils.AutoMapper.csproj" />
@@ -34,5 +30,4 @@
     <ProjectReference Include="..\CleanArch.DataAccess.Contracts\CleanArch.DataAccess.Contracts.csproj" />
     <ProjectReference Include="..\CleanArch.Infrastructure.Contracts\CleanArch.Infrastructure.Contracts.csproj" />
   </ItemGroup>
-
 </Project>

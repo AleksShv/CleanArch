@@ -1,21 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.DependencyInjection;
 
 using CleanArch.Infrastructure.Contracts.UserProvider;
 using CleanArch.DataAccess.SqlServer.Models;
 using CleanArch.Entities.Base;
-using CleanArch.Utils;
+
+using Changings = (string Action, System.Collections.Generic.Dictionary<string, object?>? Payload);
 
 namespace CleanArch.DataAccess.SqlServer.Interceptors;
 
 internal class EntitiesHistoryInterceptor : SaveChangesInterceptor
 {
-    private readonly ICurrentUserProvider _userProvider;
-
-    public EntitiesHistoryInterceptor(ICurrentUserProvider userProvider)
+    private readonly IServiceProvider _serviceProvider;
+    
+    public EntitiesHistoryInterceptor(IServiceProvider serviceProvider)
     {
-        _userProvider = userProvider;
+        _serviceProvider = serviceProvider;
     }
 
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
@@ -60,13 +61,19 @@ internal class EntitiesHistoryInterceptor : SaveChangesInterceptor
             .Entries<IHistoricalEntity>();
 
         string user;
-        try
+
+        using (var scope = _serviceProvider.CreateScope())
         {
-            user = _userProvider.GetUserId();
-        }
-        catch
-        {
-            user = "System";
+            try
+            {
+                user = scope.ServiceProvider
+                    .GetRequiredService<ICurrentUserProvider>()
+                    .GetUserId();
+            }
+            catch
+            {
+                user = "System";
+            }
         }
 
         var now = DateTimeOffset.UtcNow;
@@ -91,7 +98,7 @@ internal class EntitiesHistoryInterceptor : SaveChangesInterceptor
                 throw new InvalidOperationException($"Entity {entryEntityType.Name} or its primary key not found");
             }
 
-            (string Action, Dictionary<string, object?>? Payload)? changings = entry.State switch
+            Changings? changings = entry.State switch
             {
                 EntityState.Added => 
                 (
